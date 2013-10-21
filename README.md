@@ -3,7 +3,7 @@ Farsi-Verb-Tokenizer
 
 Tokenizes Farsi Verbs
 
-To run the tokenizer use the following script:
+Usage:
 
 perl farsi-verb-tokenizer.perl [-d resource-directory] input-file [pattern_id]
 
@@ -29,5 +29,3 @@ perl farsi-verb-tokenizer.perl test-input.txt > test-output.txt
 The output should be exactly the same as test-tokenized.txt. You can check that running the following diff command:
 
 diff test-output.txt test-tokenized.txt
-
-

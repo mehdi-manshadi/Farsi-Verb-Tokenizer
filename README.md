@@ -1,7 +1,7 @@
 Farsi-Verb-Tokenizer
 ====================
 
-Tokenizes Farsi Verbs
+Tokenizes Farsi Verbs.
 
 Usage:
 
@@ -24,7 +24,7 @@ The transformations in "resource/transformations.tsv" are sorted from largest to
 
 Example:
 
-perl farsi-verb-tokenizer.perl test-input.txt > test-output.txt
+perl ./script/farsi-verb-tokenizer.perl test-input.txt > test-output.txt
 
 The output should be exactly the same as test-tokenized.txt. You can check that running the following diff command:
 

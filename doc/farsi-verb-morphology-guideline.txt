@@ -1,0 +1,27 @@
+- Feature names and cat names can only contain word (\w) characters.
+
+- In defining constants you can refer to already defined constants, which are not feature structures (that is they contain only a cat), by preceding their name with a $:
+FS= " "
+NS= "\ns"
+S= "($FS|$NS)"
+
+Macros, foot features and default features are taken into account in the following order:
+
+1. Macros 
+Macros are in the form of 
+	name := feature-structure
+They can only occur on the RHS of a rule or or in the constants.
+
+- Macros are replaced when
+	1. a constant is being added to agenda at the beginning
+	2. an active arc (rCopy) is being extended to include a constituent, which contains a macro.
+
+
+2. Default features 
+Default features are assigned when
+	1. just before a constituent is added to agenda
+	2. on an RHS constituent when an active arc (rCopy) is being extended to include that constituent.
+
+3. Foot features
+Foot features will be instantiated from left to right so if a feature is instantiated on two constituents on the RHS, the value of the left-most one will be assigned to the corresponding attribute on the LHS. However, although not required, the grammar should be designed in a way that for every rule, only one category on the RHS has a foot feature set.
+

@@ -1,0 +1,156 @@
+<MORPHOLOGY>
+
+<FEATURES>
+neg: {-,+}
+passive: {-,+}
+aux: {-,+}
+enc: {-, +}
+vowel: {-,+}
+present: {-,+}
+agr: {1s, 2s, 3s, 1p, 2p, 3p}
+tma:{PAST-SIMPLE, PRESENT-SIMPLE, PAST-PERFECT, PRESENT-PERFECT, PAST-SUBJUNCTIVE, PRESENT-SUBJUNCTIVE, PAST-IMPERFECT, PRESENT-IMPERFECT, FUTURE}
+aux-type: {NULL, BE, BECOME, WILL, BE-SBJ}
+</FEATURES>
+
+<CATEGORIES>
+IMP
+NEG
+S
+s
+PP
+VB: {aux, aux-type, enc}
+VBD: {aux, aux-type, enc}
+V: {tma, agr, neg, passive, aux, aux-type, enc}
+AGR: {agr, present}
+LOOKAHEAD: {vowel}
+</CATEGORIES>
+
+<WORDS>
+V[aux-]
+</WORDS>
+
+<DEFAULTS>
+V: neg-
+V: passive-
+V: aux-
+V: aux-type=NULL
+V: enc-		# for auxiliary verbs. to be replaced with AUX
+AGR: present-
+VBD: aux-
+VBD: aux-type=NULL
+VBD: enc-
+VB: aux-
+VB: aux-type=NULL
+VB: enc-
+</DEFAULTS>
+
+<HEAD-FEATURES>
+aux
+aux-type
+enc
+</HEAD-FEATURES>
+
+<FOOT-FEATURES>
+agr
+tma
+neg
+</FOOT-FEATURES>
+
+<CONSTANTS>
+VBD := "VBD"
+VB := "VB"
+NEG := "ن"
+IMP := "می"
+SBJ := "ب"
+PP := "ه"
+Y := "ی"
+#ZS := \u200C
+#NS := \u00A0
+FS := " "
+US := "_"	# underscore
+S := "(${ZS}|${NS}|${FS})"
+s := "${S}?"
+AGR[agr=1s] := "م"	# (am)		
+AGR[agr=2s] := "ی"	# (i:)			
+AGR[agr=3s] := ""	# () 		
+AGR[agr=1p] := "یم"	# (i:m)
+AGR[agr=2p] := "ید"	# (i:d)
+AGR[agr=3p] := "ند"	# (and)
+AGR[agr=1s, present+] := "م"  	# (am)		
+AGR[agr=2s, present+] := "ی" 	# (i:)			
+AGR[agr=3s, present+] := "د" 	# (ad) 		
+AGR[agr=1p, present+] := "یم" 	# (i:m)
+AGR[agr=2p, present+] := "ید" 	# (i:d)
+AGR[agr=3p, present+] := "ند" 	# (and)
+AUX[aux-type=BE, tma=PRESENT-SIMPLE, agr=1s, enc+] := "ام"  	# (am)	
+AUX[aux-type=BE, tma=PRESENT-SIMPLE, agr=2s, enc+] := "ای" 	# (i:)			
+AUX[aux-type=BE, tma=PRESENT-SIMPLE, agr=3s, enc+] := "است" 	# (ast) 		
+AUX[aux-type=BE, tma=PRESENT-SIMPLE, agr=1p, enc+] := "ایم" 	# (i:m)
+AUX[aux-type=BE, tma=PRESENT-SIMPLE, agr=2p, enc+] := "اید" 	# (i:d)
+AUX[aux-type=BE, tma=PRESENT-SIMPLE, agr=3p, enc+] := "اند" 	# (and)
+VBD[aux+, aux-type=BE] := "بود" 		# (bu:d)
+VB[aux+, aux-type=WILL] := "خواه" 	# (bu:d)0..VBD[aux+, aux-type=BECOME] := "شد" 	# (shod)
+VB[aux+, aux-type=BECOME] := "شو" 	# (sho)
+VOWEL := "[آا]"
+LOOKAHEAD[vowel-] := "(?!${VOWEL})"
+LOOKAHEAD[vowel+] := "(?=${VOWEL})"
+#y := "(${Y}${LOOKAHEAD[vowel+]}|${LOOKAHEAD[vowel-]})"
+</CONSTANTS>
+
+<MACROS>
+AUX := V[aux+, passive-]
+</MACROS>
+
+<RULES>
+<RULE id="1">
+V[tma=PAST-SIMPLE]: (VBD).AGR[present-] > 1.US.2
+</RULE>
+
+<RULE id="2">
+V[tma=PRESENT-SIMPLE]: (VB).AGR[present+] > 1.US.2
+</RULE>
+
+<!--
+<RULE id="3">
+V[tma=PRESENT-SUBJUNCTIVE]: SBJ.(VB).AGR[present+] > 1.2.3
+</RULE>
+
+<RULE id="4">
+V[tma=PAST-IMPERFECT]: IMP.s.(VBD).AGR[present-] > 1.ZS.3.4
+</RULE>
+
+<RULE id="5">
+V[tma=PRESENT-IMPERFECT]: IMP.s.(VB).AGR[present+] > 1.ZS.3.4
+</RULE>
+
+<RULE id="6">
+V[tma=PRESENT-PERFECT]: (VBD).PP.S.AUX[aux-type=BE, tma=PRESENT-SIMPLE, enc+, neg-] > 1.2.US.4
+</RULE>
+
+<RULE id="7">
+V[tma=PAST-PERFECT]: (VBD).PP.S.AUX[aux-type=BE, tma=PAST-SIMPLE, neg-] > 1.2.US.4
+</RULE>
+
+<RULE id="8">
+V[tma=PAST-SUBJUNCTIVE]: (VBD).PP.S.AUX[aux-type=BE-SBJ, tma=PRESENT-SIMPLE, neg-] > 1.2.US.4
+</RULE>
+
+<RULE id="9">
+V[tma=FUTURE]: AUX[aux-type=WILL, tma=PRESENT-SIMPLE, neg-].S.(VBD) > 1.US.3
+</RULE>
+
+<RULE id="10">
+V[passive+]: (VBD).PP.S.AUX[aux-type=BECOME] > 1.2.US.4
+</RULE>
+
+-->
+<RULE id="11">
+V[passive-, neg+]: NEG.(V[passive-, neg-]) > 1.US.2
+</RULE>
+
+<RULE1 id="11">
+V[passive-, neg+]: NEG.y.(V[passive-, neg-]) > 1.US.2.US.3
+</RULE1>
+
+</RULES>
+</MORPHOLOGY>
